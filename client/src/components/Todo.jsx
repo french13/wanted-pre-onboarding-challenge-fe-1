@@ -1,14 +1,23 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { json } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { Container, Row, Col, Input, Button } from "reactstrap";
 import TodoList from "./TodoList";
 
 const Todo = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [rePage, setRepage] = useState(true);
+  const [rePage, setRepage] = useState(false);
+
   
+
+    useEffect(()=>{
+     const saveTitle = localStorage.getItem('addInputTitle')
+     const saveContent = localStorage.getItem('addInputContent')
+     setTitle(saveTitle)
+     setContent(saveContent)
+    },[])
 
  
   const submitTodo = async () => {
@@ -20,6 +29,11 @@ const Todo = () => {
       } })
       .then((todo) => {
         console.log(todo.data);
+        setRepage(!rePage)
+        setTitle('');
+        setContent('')
+        localStorage.removeItem('addInputTitle')
+        localStorage.removeItem('addInputContent')
       })
       .catch((error) => {
         console.log(error);
@@ -28,30 +42,45 @@ const Todo = () => {
       setRepage(!rePage)
   };
 
+  const localSaveTitle =(e)=>{
+    setTitle(e.target.value);
+    localStorage.setItem('addInputTitle', e.target.value)
+  }
+  const localSaveContent =(e)=>{
+    setContent(e.target.value);
+    localStorage.setItem('addInputContent', e.target.value)
+  }
+
   return (
-    <Container>
-      <Row>
+    <Container className="addTodo__container">
+      <Row className="addTodo__input">
         <Col lg="3">
-          <input
-            onChange={(e) => {
-              setTitle(e.target.value);
-            }}
+          <Input
+          defaultValue={title}
+          placeholder="제목"
+            onChange={
+              localSaveTitle
+            }
           />
         </Col>
         <Col lg="9">
-          <input
-            onChange={(e) => {
-              setContent(e.target.value);
-            }}
+          <Input
+          defaultValue={content}
+           placeholder="내용"
+            onChange={ localSaveContent}
           />
         </Col>
       </Row>
       <Row>
-        <Button onClick={submitTodo}>Add Todo</Button>
+        <Button className="addTodo__button" onClick={submitTodo}>Todo 추가하기</Button>
       </Row>
+      <Outlet context={[rePage, setRepage]}/>
       <Row>
-        <TodoList/>
+        <TodoList rePage={rePage} setRepage={setRepage}/>
       </Row>
+      
+        
+      
     </Container>
   );
 };

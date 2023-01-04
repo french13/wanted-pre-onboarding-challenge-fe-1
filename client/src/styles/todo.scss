@@ -1,0 +1,126 @@
+$mainColor :  #74ACDF;
+$bgColor : rgb(238, 238, 238);
+
+@mixin flexbox ($justify, $align){
+    display: flex;
+    justify-content: $justify;
+    align-items: $align;
+  }
+
+.addTodo__container {
+  margin-top : 20px;
+
+  .addTodo__input {
+    input {
+      width : 100%;
+      margin : 5px;
+      border : solid 2px $mainColor;
+      border-radius: 5px;
+    }
+  }
+  
+  .addTodo__button {
+    background-color: $mainColor;
+    border : none;
+    width : 98%;
+    margin-left : 1.5%;
+  }
+}
+
+.updateTodo__box {
+  @include flexbox(space-between, center);
+  padding : 10px;
+  background-color: $bgColor;
+  border-radius: 10px;
+
+  :nth-child(1){
+    width : 20%;
+  }
+  :nth-child(2){
+    width : 50%;
+  }
+
+  :nth-child(3){
+    width : 10%;
+  }
+  :nth-child(4){
+    width : 10%;
+    border : none;
+    background-color: none;
+    color : red;
+  }
+}
+
+.todo__box {
+  @include flexbox(space-between, center);
+  padding : 10px;
+  background-color: $mainColor;
+  border-radius: 10px;
+  color : white;
+
+  :nth-child(1){
+    width : 20%;
+  }
+  :nth-child(2){
+    width : 50%;
+  }
+  
+  :nth-child(3){
+    width : 10%;
+    background-color: rgb(158, 158, 158);
+    border : none;
+  }
+  :nth-child(4){
+    width : 10%;
+  }
+  :nth-child(5){
+    width : 2%;
+    border : none;
+    background : none;
+    color : red;
+  }
+
+  button {
+    margin : 0px 5px;
+  }
+}
+
+.detailTodo__box {
+  margin : 20px 0px;
+  background-color: $bgColor;
+  position: relative;
+  text-align: left;
+  padding : 50px;
+  border-radius: 10px;
+
+  :nth-child(1){
+    position : absolute;
+    left : 5px;
+    top : 5px;
+    border: none;
+    background: none;
+  }
+  :nth-child(2){
+    position : absolute;
+    right : 5px;
+    top : 0px;
+    border : none;
+    background-color: none;
+    color : red;
+    font-size: 30px;
+  }
+  :nth-child(3){
+    font-size: 20px;
+    border-bottom : solid 3px black;
+    padding : 10px;
+  }
+  :nth-child(4){
+    font-size: 15px;
+    padding : 10px;
+  }
+
+  
+
+
+}
+

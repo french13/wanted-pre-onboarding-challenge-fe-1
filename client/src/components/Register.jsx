@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/loginRegister.scss";
 import { Container, Row, Form, Input, Button, Label } from "reactstrap";
 import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 
 const Register = () => {
@@ -13,6 +14,7 @@ const Register = () => {
   const [email, setUserId] = useState("");
   const [password, setUserPw] = useState("");
   const [userName, setUserName] = useState("");
+  const navigate = useNavigate()
 
   // id 유효성 체크
   const idCheck = (e) => {
@@ -74,6 +76,7 @@ const Register = () => {
   return (
     <Container className="register__container">
       <Row>
+        <Button onClick={()=>{navigate(-1)}} style={{width : '20%'}}>뒤로</Button>
         <Form>
           <p>Sign Up</p>
           <Input
