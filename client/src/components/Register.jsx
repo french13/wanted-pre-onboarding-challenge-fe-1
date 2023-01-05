@@ -13,7 +13,6 @@ const Register = () => {
 
   const [email, setUserId] = useState("");
   const [password, setUserPw] = useState("");
-  const [userName, setUserName] = useState("");
   const navigate = useNavigate()
 
   // id 유효성 체크
@@ -62,7 +61,7 @@ const Register = () => {
     }
   }, [id, pw, pwConfirm]);
 
-  // 회원가입
+  // 회원가입 기능
   const register = async() => {
     await axios.post('http://localhost:8080/users/create', {email, password}).then((data)=>{
     console.log(data.data)
@@ -79,17 +78,7 @@ const Register = () => {
         <Button onClick={()=>{navigate(-1)}} style={{width : '20%'}}>뒤로</Button>
         <Form>
           <p>Sign Up</p>
-          <Input
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
-            type="text"
-            id="name"
-            name="userId"
-            placeholder="이름"
-            required
-          />
-          <Label></Label>
+
 
           <Input
             onChange={idCheck}
