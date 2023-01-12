@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Container, Row, Col, Input, Button } from "reactstrap";
-import TodoList from "./TodoList";
+import TodoList from "../components/TodoList";
 
 const Todo = () => {
   const [title, setTitle] = useState("");

@@ -6,28 +6,33 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState(null);
+  const [password, setPassword] = useState(null);
   const navigate = useNavigate();
   const [loginButton, setLoginButton]= useState(true)
-  const [rePage, setRepage] = useState(true)
+ 
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+
+
 
   // 이메일, 비밀번호의 input값을 체크하여 로그인 버튼 활성/비활성화
   useEffect(()=>{
-    if(email != "" && password != ""){
+
+    if(email != null && password != null){
       setLoginButton(false)
     }else{
       setLoginButton(true)
     }
-  },[email, password, rePage])
+  },[email, password])
 
   // 로그인 기능
-  const login = async (e) => {
+  const signIn = async (e) => {
     e.preventDefault();
 
     await axios
-      .post("http://localhost:8080/users/login", {
+      .post(`${SERVER_URL}/users/login`, {
         email,
         password,
       })
@@ -40,15 +45,13 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         alert('이메일과 비밀번호를 확인해주세요');
-        // 실패 alert 이후 email, password의 state값을 다시 채우기 위해 리렌더링
-        setRepage(!rePage)
       })
   };
 
   return (
     <Container className="login__container">
       <Row>
-        <Form onSubmit={login}>
+        <Form onSubmit={signIn}>
           <p>Login</p>
           <Input
             onChange={(e) => {
@@ -68,7 +71,7 @@ const Login = () => {
             name="userPassword"
             placeholder="password"
           />
-          <Button disabled={loginButton} type="submit" onClick={login}>
+          <Button disabled={loginButton} type="submit" onClick={signIn}>
             로그인
           </Button>
         </Form>
