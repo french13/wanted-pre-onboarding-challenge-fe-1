@@ -119,8 +119,17 @@ $bgColor : rgb(238, 238, 238);
     padding : 10px;
   }
 
-  
+}
 
-
+.confirmDeleteTodo { 
+  position : absolute;
+  background-color: rgba(0,0,0,0.7);
+  width : 100%;
+  left : 0;
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 

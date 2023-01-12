@@ -7,21 +7,22 @@ import { Button, Container, Row, Col, Input } from "reactstrap";
 const TodoList = ({ rePage, setRepage }) => {
   const [todolist, setTodolist] = useState([]);
   const [updateTodoList, setUpdateTodoList] = useState();
-  const [deleteTodoConfirmBox, setDeleteTodoConfirmBox] = useState(false);
   const navigate = useNavigate();
 
-  const token = localStorage.getItem("token");
+     const token = localStorage.getItem("token");
 
   // component 렌더링시 db에서 todolist와 localStorage에 값이 있다면 가져오기
   useEffect(() => {
+ 
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/todos`, {
+      .get("http://localhost:8080/todos", {
         headers: {
           Authorization: token,
         },
       })
-      .then((todoList) => {
-        setTodolist(todoList.data.data);
+      .then((data) => {
+        console.log(data.data.data);
+        setTodolist(data.data.data);
       })
       .then(() => {
         const localUpdate = JSON.parse(localStorage.getItem("updateTodoItem"));
@@ -32,13 +33,26 @@ const TodoList = ({ rePage, setRepage }) => {
       });
   }, [rePage]);
 
-  // todoList 상세클릭시 detail페이지 이동
-  const detailTodo = (e) => {
-    navigate(`/detail/${e.target.id}`);
+  // 투두리스트 삭제
+  const deleteTodo = (e) => {
+    const token = localStorage.getItem("token");
+    const id = e.target.id;
+    axios
+      .delete(`http://localhost:8080/todos/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((data) => {
+        setRepage(!rePage);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
-  // 수정버튼 클릭시 리스트의 값들을 가져와서 state와 localStorage에 넣기
-  const openUpdateTodoBox = (e) => {
+  // 리스트의 수정버튼 클릭시 리스트의 값들을 가져와서 state와 localStorage에 넣기
+  const updateTodoOpen = (e) => {
     const siblings = e.target.parentNode.childNodes;
 
     const item = {
@@ -52,20 +66,8 @@ const TodoList = ({ rePage, setRepage }) => {
     localStorage.setItem("updateTodoItem", JSON.stringify(item));
   };
 
-  // 수정Input변경시 localStorage에 있는 updateTodoItem도 변경 -> 새로고침에 value 유지
-  const changeUpdateLocalStorage = (value, value2) => {
-    localStorage.setItem(
-      "updateTodoItem",
-      JSON.stringify({
-        title: value,
-        content: value2,
-        id: updateTodoList.id,
-      })
-    );
-  };
-
   // update 박스를 닫고 updateState와 localStorage에 있는 값 삭제
-  const updateTodoBoxClose = () => {
+  const updateTodoClose = () => {
     setUpdateTodoList("");
     localStorage.removeItem("updateTodoItem");
   };
@@ -74,10 +76,11 @@ const TodoList = ({ rePage, setRepage }) => {
   const updateTodo = async (e) => {
     const title = e.target.previousSibling.previousSibling.value;
     const content = e.target.previousSibling.value;
+    const token = localStorage.getItem("token");
     const id = e.target.id;
     await axios
       .put(
-        `${process.env.REACT_APP_SERVER_URL}/todos/${id}`,
+        `http://localhost:8080/todos/${id}`,
         { title, content },
         {
           headers: {
@@ -86,6 +89,7 @@ const TodoList = ({ rePage, setRepage }) => {
         }
       )
       .then((data) => {
+        console.log(data.data);
         setRepage(!rePage);
       })
       .then(() => {
@@ -97,24 +101,31 @@ const TodoList = ({ rePage, setRepage }) => {
       });
   };
 
-  // 투두리스트 삭제
-  const deleteTodo = (e) => {
-    const id = e.target.id;
-    axios
-      .delete(`${process.env.REACT_APP_SERVER_URL}/todos/${id}`, {
-        headers: {
-          Authorization: token,
-        },
+  // todoList 상세클릭시 detail페이지 이동
+  const detailTodo = (e) => {
+    navigate(`/detail/${e.target.id}`);
+  };
+
+  // 수정Input변경시 localStorage에 값을 추가 -> 새로고침에 value 유지
+  const localUpdateTitle = (e) => {
+    localStorage.setItem(
+      "updateTodoItem",
+      JSON.stringify({
+        title: e.target.value,
+        content: e.target.nextSibling.value,
+        id: updateTodoList.id,
       })
-      .then(() => {
-        setRepage(!rePage);
-        localStorage.removeItem("updateTodoItem");
-        setDeleteTodoConfirmBox(false);
-        alert('삭제완료')
+    );
+  };
+  const localUpdateContent = (e) => {
+    localStorage.setItem(
+      "updateTodoItem",
+      JSON.stringify({
+        title: e.target.previousSibling.value,
+        content: e.target.value,
+        id: updateTodoList.id,
       })
-      .catch((error) => {
-        console.log(error);
-      });
+    );
   };
 
   return (
@@ -122,27 +133,17 @@ const TodoList = ({ rePage, setRepage }) => {
       {updateTodoList && (
         <Row className="updateTodo__box" key={updateTodoList.id}>
           <Input
-            onChange={(e) => {
-              changeUpdateLocalStorage(
-                e.target.value,
-                e.target.nextSibling.value
-              );
-            }}
+            onChange={localUpdateTitle}
             defaultValue={updateTodoList.title}
           />
           <Input
-            onChange={(e) => {
-              changeUpdateLocalStorage(
-                e.target.previousSibling.value,
-                e.target.value
-              );
-            }}
+            onChange={localUpdateContent}
             defaultValue={updateTodoList.content}
           />
           <Button onClick={updateTodo} id={updateTodoList.id}>
             수정
           </Button>
-          <button onClick={updateTodoBoxClose}>취소</button>
+          <button onClick={updateTodoClose}>취소</button>
         </Row>
       )}
       <Row>
@@ -150,7 +151,7 @@ const TodoList = ({ rePage, setRepage }) => {
           todolist.map((item, i) => {
             return (
               <div
-                style={{ marginTop: "20px", position: "relative" }}
+                style={{ marginTop: "20px" }}
                 className="todo__box"
                 key={item.id}
               >
@@ -159,29 +160,10 @@ const TodoList = ({ rePage, setRepage }) => {
                 <Button id={item.id} onClick={detailTodo}>
                   상세
                 </Button>
-                <Button onClick={openUpdateTodoBox}>수정</Button>
-                <button
-                  onClick={() => {
-                    setDeleteTodoConfirmBox(true);
-                  }}
-                >
+                <Button onClick={updateTodoOpen}>수정</Button>
+                <button id={item.id} onClick={deleteTodo}>
                   x
                 </button>
-                {deleteTodoConfirmBox == true ?
-                  <div className="confirmDeleteTodo">
-                    <span>정말 삭제하시겠습니까?</span>
-                    <Button id={item.id} onClick={deleteTodo}>
-                      삭제
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setDeleteTodoConfirmBox(false);
-                      }}
-                    >
-                      취소
-                    </Button>
-                  </div> : null
-                }
               </div>
             );
           })}

@@ -15,3 +15,43 @@
 <img src="https://img.shields.io/badge/React Router-CA4245?style=for-the-badge&logo=react router&logoColor=white">
 <img src="https://img.shields.io/badge/Reactstrap-61DAFB?style=for-the-badge&logo=reactstrap&logoColor=white">
 <img src="https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white">
+
+#### 수정사항
+
+##### 1. function 명과 server-url 
+- 수정 전
+<img src='/client/public/images/change1.png' width='400'> 
+- 수정 후
+<img src='/client/public/images/change1-1.png' width='400'>
+
+    - **해당 function을 포함하고 있는 components의 이름이 Login**이라 기존login이라고 적혀있던 function 명을 signIn으로 교체
+    - 기존 로컬 서버 주소의 쉬운 관리와 배포시 보안을 위해 .env을 사용하여 설정
+---
+
+##### 2. 회원가입 페이지 리팩토링
+- 수정 전
+ <img src='/client/public/images/change2-1.png' width='400'> 
+- 수정 후
+ <img src='/client/public/images/change2.png' width='400'>
+
+    - 정규식을 밖으로 빼고 id,password,passwordconfirm의 코드를 리팩토링해서 한 곳에 응집
+    - 기존 60줄 코드가 27줄로 변경
+--- 
+
+##### 3. TodoList 리팩토링 
+- 수정 전
+ <img src='/client/public/images/change3.png' width='400'>
+- 수정 후
+ <img src='/client/public/images/change3-1.png' width='400'>
+
+    - 비슷한 기능을 하는 function을 하나로 합치기
+---
+
+#### 4. todolist 삭제시 재확인 추가
+- 수정 전
+<img src='/client/public/images/change4.png' width='400'>
+<img src='/client/public/images/change4-3.gif' width='400'>
+- 수정 후
+<img src='/client/public/images/change4-1.png' width='400'>
+<img src='/client/public/images/change4-4.gif' width='400'>
+    - deleteTodoConfirmBox 라는 변수를 toggle로 설정하여 껐다 켰다 할 수 있다.
