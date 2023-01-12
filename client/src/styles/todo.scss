@@ -123,13 +123,17 @@ $bgColor : rgb(238, 238, 238);
 
 .confirmDeleteTodo { 
   position : absolute;
-  background-color: rgba(0,0,0,0.7);
-  width : 100%;
-  left : 0;
-  height: 100%;
+  background-color: rgb(0,0,0);
+  width : 50%;
+  height: 300px;
   border-radius: 10px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  @include flexbox(space-around, center);
+  flex-direction: column;
+  z-index: 1;
+  left : 25%;
+  color : white;
+  button {
+    width : 80%;
+  }
 }
 
