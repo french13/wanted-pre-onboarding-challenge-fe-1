@@ -10,43 +10,39 @@ const Todo = () => {
   const [content, setContent] = useState("");
   const [rePage, setRepage] = useState(false);
 
-  
+  const token = localStorage.getItem('token')
+
   // 페이지 랜더링시 localStorage에 값이 있다면 가져오기  -> 페이지 새로고침시 input값 유지
     useEffect(()=>{
-     const saveTitle = localStorage.getItem('addInputTitle')
-     const saveContent = localStorage.getItem('addInputContent')
-     setTitle(saveTitle)
-     setContent(saveContent)
-    },[])
+     setTitle(localStorage.getItem('addInputTitle'))
+     setContent(localStorage.getItem('addInputContent'))
+    },[rePage])
 
   // todo post 기능
   const submitTodo = async () => {
-    const token = localStorage.getItem('token')
-
     await axios
-      .post("http://localhost:8080/todos/", { title, content }, { headers: {
+      .post(`${process.env.REACT_APP_SERVER_URL}/todos/`, { title, content }, { headers: {
         Authorization : token
       } })
       .then((todo) => {
+        alert('To Do 추가완료')
         console.log(todo.data);
-        setRepage(!rePage);
-        setTitle('');
-        setContent('');
         localStorage.removeItem('addInputTitle');
         localStorage.removeItem('addInputContent');
+        
+      }).then(()=>{
+        setRepage(!rePage)
       })
       .catch((error) => {
         console.log(error);
       });
-
-      setRepage(!rePage)
   };
   // input에 값을 변경 할때마다 localStorage 값 변경
-  const localSaveTitle =(e)=>{
+  const saveLocalStorageTodoTitle =(e)=>{
     setTitle(e.target.value);
     localStorage.setItem('addInputTitle', e.target.value)
   }
-  const localSaveContent=(e)=>{
+  const saveLocalStorageTodoContent=(e)=>{
     setContent(e.target.value);
     localStorage.setItem('addInputContent', e.target.value)
   }
@@ -59,7 +55,7 @@ const Todo = () => {
           defaultValue={title}
           placeholder="제목"
             onChange={
-              localSaveTitle
+              saveLocalStorageTodoTitle
             }
           />
         </Col>
@@ -67,7 +63,7 @@ const Todo = () => {
           <Input
           defaultValue={content}
            placeholder="내용"
-            onChange={localSaveContent}
+            onChange={saveLocalStorageTodoContent}
           />
         </Col>
       </Row>

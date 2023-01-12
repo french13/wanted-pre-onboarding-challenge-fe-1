@@ -11,9 +11,11 @@ const TodoDetail = () => {
   let param = useParams().id;
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
+
   // detail component 실행시 데이터 가져오기
   useEffect(() => {
-    const token = localStorage.getItem("token");
+
     axios
     // 주소의 id를 가져와서 get요청시 넣기
       .get(`http://localhost:8080/todos/${param}`, {
