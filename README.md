@@ -22,6 +22,7 @@
 
  - 수정 전
 <img src='/client/public/images/change1.png' width='400'> 
+
  - 수정 후
 <img src='/client/public/images/change1-1.png' width='400'>
 
@@ -45,6 +46,7 @@
 
  - 수정 전
 <img src='/client/public/images/change3.png' width='400'>
+
  - 수정 후
 <img src='/client/public/images/change3-1.png' width='400'>
 
@@ -56,6 +58,7 @@
  - 수정 전
 <img src='/client/public/images/change4.png' width='400'>
 <img src='/client/public/images/change4-3.gif' width='400'>
+
  - 수정 후
 <img src='/client/public/images/change4-1.png' width='400'>
 <img src='/client/public/images/change4-4.gif' width='400'>
