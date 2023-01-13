@@ -2,12 +2,12 @@ import './App.css';
 import './styles/todo.scss'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Route, Routes } from 'react-router-dom';
-import Login from './pages/Login'
-import Register from './pages/Register'
-import Todo from './pages/Todo';
-import Nav from './components/Nav';
+import Login from './pages/Login.tsx'
+import Register from './pages/Register.tsx'
+import Todo from './pages/Todo.tsx';
+import Nav from './components/Nav.tsx';
 import React from 'react';
-import TodoDetail from './components/TodoDetail';
+import TodoDetail from './components/TodoDetail.tsx';
 
 
 function App() {

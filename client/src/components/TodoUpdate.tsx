@@ -6,7 +6,7 @@ const TodoUpdate = ({updateTodoList, setUpdateTodoList, rePage, setRepage}) => {
   const token = localStorage.getItem("token");
 
   // 수정Input변경시 localStorage에 있는 updateTodoItem도 변경 -> 새로고침에 value 유지
-  const changeUpdateLocalStorage = (value, value2) => {
+  const changeUpdateLocalStorage = (value : string, value2 : string) => {
     localStorage.setItem(
       "updateTodoItem",
       JSON.stringify({
@@ -24,7 +24,7 @@ const TodoUpdate = ({updateTodoList, setUpdateTodoList, rePage, setRepage}) => {
   };
 
   // updateTodo 기능
-  const updateTodo = async (e) => {
+  const updateTodo = async (e : any) => {
     const title = e.target.previousSibling.previousSibling.value;
     const content = e.target.previousSibling.value;
     const id = e.target.id;

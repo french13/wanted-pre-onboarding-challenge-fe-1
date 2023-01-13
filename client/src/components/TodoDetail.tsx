@@ -4,10 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { useOutletContext } from "react-router-dom";
 
+
+
 const TodoDetail = () => {
-  const [detailTodo, setDetailTodo] = useState();
+  const [detailTodo, setDetailTodo] = useState<any>();
   // outlet으로 props를 전달하기 위해서는 useOutletContext가 필요하다.
-  const [rePage, setRepage] = useOutletContext();
+  const [rePage, setRepage] = useOutletContext<any>();
   let param = useParams().id;
   const navigate = useNavigate();
 
