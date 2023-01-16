@@ -8,12 +8,12 @@ import { useEffect } from "react";
 
 
 const Login = () => {
-  const [email, setEmail] = useState(null);
-  const [password, setPassword] = useState(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
-  const [loginButton, setLoginButton]= useState(true)
+  const [loginButton, setLoginButton]= useState<boolean>(true)
  
-  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
+  const SERVER_URL: string = process.env.REACT_APP_SERVER_URL;
 
 
 
@@ -54,7 +54,7 @@ const Login = () => {
         <Form onSubmit={signIn}>
           <p>Login</p>
           <Input
-            onChange={(e) => {
+            onChange={(e ) => {
               setEmail(e.target.value);
             }}
             type="email"
@@ -63,7 +63,7 @@ const Login = () => {
             placeholder="e-mail"
           />
           <Input
-            onChange={(e) => {
+            onChange={(e ) => {
               setPassword(e.target.value);
             }}
             type="password"

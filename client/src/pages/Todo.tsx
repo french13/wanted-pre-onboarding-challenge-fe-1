@@ -21,7 +21,9 @@ const Todo = () => {
   // todo post 기능
   const submitTodo = async () => {
     await axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/todos/`, { title, content }, { headers: {
+      .post(`${process.env.REACT_APP_SERVER_URL}/todos/`, 
+      { title, content }, 
+      { headers: {
         Authorization : token
       } })
       .then((todo) => {

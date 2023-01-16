@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactHTMLElement } from "react";
 import { Row, Col, Button, Input } from "reactstrap";
 import axios from "axios";
 
@@ -52,13 +52,13 @@ const TodoUpdate = ({updateTodoList, setUpdateTodoList, rePage, setRepage}) => {
   return (
     <Row className="updateTodo__box" key={updateTodoList.id}>
       <Input
-        onChange={(e) => {
+        onChange={(e:  React.ChangeEvent<HTMLInputElement> | any) => {
           changeUpdateLocalStorage(e.target.value, e.target.nextSibling.value);
         }}
         defaultValue={updateTodoList.title}
       />
       <Input
-        onChange={(e) => {
+        onChange={(e : React.ChangeEvent<HTMLInputElement> | any) => {
           changeUpdateLocalStorage(
             e.target.previousSibling.value,
             e.target.value

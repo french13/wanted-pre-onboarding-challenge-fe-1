@@ -30,7 +30,7 @@ const Register = () => {
     setPassword(e.target.value)
     setPasswordVaildText(passwordVaild.test(e.target.value))
   };
-  //  일치하는지 체크
+  //  비밀번호 재확인 체크
   const passwordConfirmInput = (e) => {
    setPasswordConfirmText(password == e.target.value) 
   };
